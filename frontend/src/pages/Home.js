@@ -65,10 +65,10 @@ const Home = () => {
                         <span className="me-3"><strong>🌱 SustainHub</strong></span>
                         <span className="me-3 text-muted small">Copyright © 2025 SustainHub. All rights reserved.</span>
                         <a href="https://github.com/kushal7201/Sustain_Hub_GSC" className="me-2" target="_blank" rel="noopener noreferrer">
-                            <img src="/github.png" alt="GitHub" style={{ width: '20px', height: '20px', opacity: 0.8 }} />
+                            <img src="/github.png" alt="GitHub" style={{ width: '25px', height: '25px', opacity: 0.8 }} />
                         </a>
                         <a href="mailto:321kushalbansal.kb@gmail.com">
-                            <img src="/gmail.png" alt="Email" style={{ width: '20px', height: '20px', opacity: 0.8 }} />
+                            <img src="/gmail.png" alt="Email" style={{ width: '30px', height: '30px', opacity: 0.8 }} />
                         </a>
                     </div>
                 </Container>

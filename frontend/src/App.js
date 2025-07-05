@@ -12,6 +12,7 @@ import UserDashboard from './pages/UserDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import Profile from './pages/Profile';
 import IssueDetails from './pages/IssueDetails';
+import Leaderboard from './pages/Leaderboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoadingSpinner from './components/LoadingSpinner';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -42,10 +43,15 @@ function App() {
             </ErrorBoundary>
           </ProtectedRoute>
         } />
-        
-        <Route path="/profile" element={
+          <Route path="/profile" element={
           <ProtectedRoute>
             <Profile />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/leaderboard" element={
+          <ProtectedRoute>
+            <Leaderboard />
           </ProtectedRoute>
         } />
         
