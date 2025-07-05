@@ -26,9 +26,7 @@ const Login = () => {
             ...formData,
             [e.target.name]: e.target.value
         });
-    };
-
-    const handleSubmit = async (e) => {
+    };    const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError('');
@@ -42,7 +40,22 @@ const Login = () => {
         }
         
         setLoading(false);
-    };    return (
+    };
+
+    const handleGuestLogin = async () => {
+        setLoading(true);
+        setError('');
+
+        const result = await login('guest@sustainhub.com', 'Guestuser321@G');
+        
+        if (result.success) {
+            // Navigation will be handled by useEffect
+        } else {
+            setError(result.message);
+        }
+        
+        setLoading(false);
+    };return (
         <>
             <Navigation />
             <div style={{ backgroundColor: 'var(--primary-lightest)', minHeight: '100vh' }}>
@@ -97,9 +110,37 @@ const Login = () => {
                                         </>
                                     ) : (
                                         '🚀 Sign In'
+                                    )}                                </Button>
+                            </Form>
+                            
+                            <div className="text-center mt-3">
+                                <div className="d-flex align-items-center mb-3">
+                                    <hr className="flex-grow-1" />
+                                    <span className="px-3 text-muted small">OR</span>
+                                    <hr className="flex-grow-1" />
+                                </div>
+                                <Button 
+                                    variant="outline-secondary" 
+                                    onClick={handleGuestLogin}
+                                    className="w-100 fw-semibold"
+                                    disabled={loading}
+                                    style={{ 
+                                        borderRadius: '10px',
+                                        padding: '12px',
+                                        fontSize: '1rem'
+                                    }}
+                                >
+                                    {loading ? (
+                                        <>
+                                            <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                                            Signing in...
+                                        </>
+                                    ) : (
+                                        '👤 Login with Guest Credentials'
                                     )}
                                 </Button>
-                            </Form>
+                            </div>
+                            
                             <div className="text-center mt-4">
                                 <span className="text-muted">Don't have an account? </span>
                                 <Link to="/signup" style={{ color: 'var(--primary-dark)', fontWeight: '600' }}>

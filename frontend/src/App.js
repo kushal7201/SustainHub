@@ -14,6 +14,7 @@ import Profile from './pages/Profile';
 import IssueDetails from './pages/IssueDetails';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoadingSpinner from './components/LoadingSpinner';
+import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
   const { loading } = useAuth();
@@ -34,10 +35,11 @@ function App() {
             <UserDashboard />
           </ProtectedRoute>
         } />
-        
-        <Route path="/admin" element={
+          <Route path="/admin" element={
           <ProtectedRoute adminOnly>
-            <AdminDashboard />
+            <ErrorBoundary>
+              <AdminDashboard />
+            </ErrorBoundary>
           </ProtectedRoute>
         } />
         

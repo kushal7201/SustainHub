@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Container, Card } from 'react-bootstrap';
+import { Container, Card, Row, Col, Form, Badge, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
@@ -8,6 +8,8 @@ import Navigation from '../components/Navigation';
 const AdminDashboard = () => {
     const { user } = useAuth();
     const [issues, setIssues] = useState([]);
+    const [sortBy, setSortBy] = useState('latest');
+    const [selectedIssue, setSelectedIssue] = useState(null);
     const mapRef = useRef(null);
     const mapInstanceRef = useRef(null);
     const navigate = useNavigate();
@@ -21,15 +23,73 @@ const AdminDashboard = () => {
             initializeMap();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [issues]);
-
-    const loadIssues = async () => {
+    }, [issues]);    const loadIssues = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/issues/admin/map`);
             setIssues(response.data);
         } catch (error) {
             console.error('Error loading issues:', error);
         }
+    };    const getSortedIssues = () => {
+        const sortedIssues = [...issues];
+        
+        switch (sortBy) {
+            case 'latest':
+                return sortedIssues.sort((a, b) => {
+                    const dateA = new Date(a.createdAt || 0);
+                    const dateB = new Date(b.createdAt || 0);
+                    return dateB - dateA;
+                });
+            case 'oldest':
+                return sortedIssues.sort((a, b) => {
+                    const dateA = new Date(a.createdAt || 0);
+                    const dateB = new Date(b.createdAt || 0);
+                    return dateA - dateB;
+                });
+            case 'pending':
+                return sortedIssues.filter(issue => issue.status === 'PENDING');
+            case 'accepted':
+                return sortedIssues.filter(issue => issue.status === 'ACCEPTED');
+            case 'in_progress':
+                return sortedIssues.filter(issue => issue.status === 'IN_PROGRESS');
+            case 'resolved':
+                return sortedIssues.filter(issue => issue.status === 'RESOLVED');
+            case 'rejected':
+                return sortedIssues.filter(issue => issue.status === 'REJECTED');
+            default:
+                return sortedIssues;
+        }
+    };
+
+    const handleIssueClick = (issue) => {
+        setSelectedIssue(issue);
+        if (mapInstanceRef.current && issue.latitude && issue.longitude) {
+            mapInstanceRef.current.setView([parseFloat(issue.latitude), parseFloat(issue.longitude)], 15);
+        }
+    };
+
+    const getStatusBadgeVariant = (status) => {
+        switch (status) {
+            case 'PENDING': return 'danger';
+            case 'ACCEPTED': return 'info';
+            case 'REJECTED': return 'secondary';
+            case 'IN_PROGRESS': return 'warning';
+            case 'RESOLVED': return 'success';
+            default: return 'secondary';
+        }
+    };    const formatDate = (dateString) => {
+        if (!dateString) return 'No date';
+        
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return 'Invalid date';
+        
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
     };
 
     const createMap = useCallback(() => {
@@ -137,9 +197,7 @@ const AdminDashboard = () => {
             case 'RESOLVED': return '#28a745'; // Green
             default: return '#6c757d'; // Gray
         }
-    };
-
-    return (
+    };    return (
         <>
             <Navigation />
             <div style={{ backgroundColor: 'var(--primary-lightest)', minHeight: '100vh' }}>
@@ -151,44 +209,147 @@ const AdminDashboard = () => {
                         <p className="text-muted">Monitor and manage community issues</p>
                     </div>
                     
-                    <Card className="mb-4 border-0 shadow-sm">
-                        <Card.Body>
-                            <div className="d-flex justify-content-between align-items-center mb-3">
-                                <h5 className="mb-0" style={{ color: 'var(--primary-dark)' }}>
-                                    📍 Issue Locations Map
-                                </h5>
-                                <div className="d-flex gap-3">
-                                    <span><span style={{color: '#dc3545', fontSize: '1.2rem'}}>●</span> Pending</span>
-                                    <span><span style={{color: '#17a2b8', fontSize: '1.2rem'}}>●</span> Accepted</span>
-                                    <span><span style={{color: '#6c757d', fontSize: '1.2rem'}}>●</span> Rejected</span>
-                                    <span><span style={{color: '#ffc107', fontSize: '1.2rem'}}>●</span> In Progress</span>
-                                    <span><span style={{color: '#28a745', fontSize: '1.2rem'}}>●</span> Resolved</span>
-                                </div>
-                            </div>
-                            <p className="text-muted mb-3">Click on any marker to view detailed information about the issue</p>
-                        </Card.Body>
-                    </Card>
-                    
-                    <div 
-                        ref={mapRef} 
-                        className="map-container border-0 shadow-lg"
-                        style={{ 
-                            height: '70vh', 
-                            width: '100%',
-                            minHeight: '500px',
-                            borderRadius: '15px',
-                            overflow: 'hidden'
-                        }}
-                    >
-                        {!window.L && (
-                            <div className="d-flex flex-column justify-content-center align-items-center h-100" style={{ backgroundColor: 'var(--white)' }}>
-                                <div className="spinner-border mb-3" style={{ color: 'var(--primary-medium)' }} role="status">
-                                    <span className="visually-hidden">Loading map...</span>
-                                </div>
-                                <p className="text-muted">Loading interactive map...</p>
-                            </div>
-                        )}
-                    </div>
+                    <Row className="g-4">
+                        {/* Map Section */}
+                        <Col lg={8}>
+                            <Card className="border-0 shadow-sm h-100">
+                                <Card.Body>
+                                    <div className="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 className="mb-0" style={{ color: 'var(--primary-dark)' }}>
+                                            📍 Issue Locations Map
+                                        </h5>
+                                        <div className="d-flex gap-3 flex-wrap">
+                                            <span><span style={{color: '#dc3545', fontSize: '1.2rem'}}>●</span> Pending</span>
+                                            <span><span style={{color: '#17a2b8', fontSize: '1.2rem'}}>●</span> Accepted</span>
+                                            <span><span style={{color: '#6c757d', fontSize: '1.2rem'}}>●</span> Rejected</span>
+                                            <span><span style={{color: '#ffc107', fontSize: '1.2rem'}}>●</span> In Progress</span>
+                                            <span><span style={{color: '#28a745', fontSize: '1.2rem'}}>●</span> Resolved</span>
+                                        </div>
+                                    </div>
+                                    <p className="text-muted mb-3">Click on any marker to view detailed information about the issue</p>
+                                    
+                                    <div 
+                                        ref={mapRef} 
+                                        className="map-container border-0 shadow-lg"
+                                        style={{ 
+                                            height: '65vh', 
+                                            width: '100%',
+                                            minHeight: '500px',
+                                            borderRadius: '15px',
+                                            overflow: 'hidden'
+                                        }}
+                                    >
+                                        {!window.L && (
+                                            <div className="d-flex flex-column justify-content-center align-items-center h-100" style={{ backgroundColor: 'var(--white)' }}>
+                                                <div className="spinner-border mb-3" style={{ color: 'var(--primary-medium)' }} role="status">
+                                                    <span className="visually-hidden">Loading map...</span>
+                                                </div>
+                                                <p className="text-muted">Loading interactive map...</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+
+                        {/* Issue List Section */}
+                        <Col lg={4}>
+                            <Card className="border-0 shadow-sm h-100">
+                                <Card.Body>
+                                    <div className="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 className="mb-0" style={{ color: 'var(--primary-dark)' }}>
+                                            📋 Issues List
+                                        </h5>
+                                        <Badge bg="primary">{issues.length} Total</Badge>
+                                    </div>
+                                    
+                                    {/* Sort Dropdown */}
+                                    <Form.Select 
+                                        value={sortBy} 
+                                        onChange={(e) => setSortBy(e.target.value)}
+                                        className="mb-3"
+                                        style={{ borderRadius: '8px' }}
+                                    >
+                                        <option value="latest">Latest First</option>
+                                        <option value="oldest">Oldest First</option>
+                                        <option value="pending">Pending Only</option>
+                                        <option value="accepted">Accepted Only</option>
+                                        <option value="in_progress">In Progress Only</option>
+                                        <option value="resolved">Resolved Only</option>
+                                        <option value="rejected">Rejected Only</option>
+                                    </Form.Select>
+
+                                    {/* Issues List */}
+                                    <div style={{ maxHeight: '55vh', overflowY: 'auto' }}>
+                                        {getSortedIssues().length === 0 ? (
+                                            <div className="text-center py-4">
+                                                <p className="text-muted">No issues found for the selected filter.</p>
+                                            </div>
+                                        ) : (
+                                            getSortedIssues().map((issue, index) => (
+                                                <Card 
+                                                    key={issue._id} 
+                                                    className={`mb-2 border-0 shadow-sm cursor-pointer ${selectedIssue?._id === issue._id ? 'border-primary' : ''}`}
+                                                    style={{ 
+                                                        transition: 'all 0.2s ease',
+                                                        cursor: 'pointer',
+                                                        borderLeft: selectedIssue?._id === issue._id ? '4px solid var(--primary-medium)' : '4px solid transparent'
+                                                    }}
+                                                    onClick={() => handleIssueClick(issue)}
+                                                >
+                                                    <Card.Body className="p-3">
+                                                        <div className="d-flex justify-content-between align-items-start mb-2">
+                                                            <div className="flex-grow-1">
+                                                                <h6 className="mb-1" style={{ fontSize: '0.95rem', fontWeight: '600' }}>
+                                                                    {issue.category}
+                                                                </h6>                                                                <p className="mb-1 text-muted" style={{ fontSize: '0.85rem' }}>
+                                                                    By: {issue.userId?.firstName || 'Unknown'} {issue.userId?.lastName || 'User'}
+                                                                </p>
+                                                                <p className="mb-0 text-muted" style={{ fontSize: '0.8rem' }}>
+                                                                    {formatDate(issue.createdAt)}
+                                                                </p>
+                                                            </div>
+                                                            <Badge bg={getStatusBadgeVariant(issue.status)} className="ms-2">
+                                                                {issue.status}
+                                                            </Badge>
+                                                        </div>
+                                                        
+                                                        {issue.description && (
+                                                            <p className="mb-2 text-muted" style={{ 
+                                                                fontSize: '0.85rem',
+                                                                overflow: 'hidden',
+                                                                textOverflow: 'ellipsis',
+                                                                whiteSpace: 'nowrap'
+                                                            }}>
+                                                                {issue.description}
+                                                            </p>
+                                                        )}
+                                                        
+                                                        <div className="d-flex justify-content-between align-items-center">
+                                                            <small className="text-muted">
+                                                                📍 Lat: {parseFloat(issue.latitude).toFixed(4)}, Lng: {parseFloat(issue.longitude).toFixed(4)}
+                                                            </small>
+                                                            <Button 
+                                                                size="sm" 
+                                                                variant="outline-primary"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    navigate(`/issue/${issue._id}`);
+                                                                }}
+                                                                style={{ fontSize: '0.75rem' }}
+                                                            >
+                                                                View Details
+                                                            </Button>
+                                                        </div>
+                                                    </Card.Body>
+                                                </Card>
+                                            ))
+                                        )}
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row>
                 </Container>
             </div>
         </>

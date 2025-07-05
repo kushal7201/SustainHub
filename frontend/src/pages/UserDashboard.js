@@ -6,12 +6,12 @@ import { useAuth } from '../context/AuthContext';
 import Navigation from '../components/Navigation';
 
 const UserDashboard = () => {
-    const { user } = useAuth();
-    const [formData, setFormData] = useState({
+    const { user } = useAuth();    const [formData, setFormData] = useState({
         category: 'Garbage Dump',
+        customCategory: '',
         description: '',
         image: null
-    });    const [loading, setLoading] = useState(false);
+    });const [loading, setLoading] = useState(false);
     const [locationPermission, setLocationPermission] = useState(null); // null, 'granted', 'denied', 'prompt'
     const [locationError, setLocationError] = useState(null);
     const [userIssues, setUserIssues] = useState([]);
@@ -163,6 +163,12 @@ const UserDashboard = () => {
             return;
         }
 
+        // Validate custom category if "Something else" is selected
+        if (formData.category === 'Something else' && !formData.customCategory.trim()) {
+            toast.error('Please specify the category');
+            return;
+        }
+
         // Check if location permission is explicitly denied
         if (locationPermission === 'denied') {
             toast.error('Location permission is required to submit issues. Please enable location access.');
@@ -188,11 +194,9 @@ const UserDashboard = () => {
                         'Content-Type': 'multipart/form-data'
                     }
                 }
-            );
-
-            // Create issue
+            );            // Create issue
             const issueData = {
-                category: formData.category,
+                category: formData.category === 'Something else' ? formData.customCategory : formData.category,
                 description: formData.description,
                 longitude: location.longitude,
                 latitude: location.latitude,
@@ -204,11 +208,10 @@ const UserDashboard = () => {
                 type: 'success',
                 isLoading: false,
                 autoClose: 5000
-            });
-
-            // Reset form
+            });            // Reset form
             setFormData({
                 category: 'Garbage Dump',
+                customCategory: '',
                 description: '',
                 image: null
             });
@@ -273,8 +276,7 @@ const UserDashboard = () => {
                                         </Alert>
                                     )}
                                     
-                                    <Form onSubmit={handleSubmit}>
-                                        <Form.Group className="mb-3">
+                                    <Form onSubmit={handleSubmit}>                                        <Form.Group className="mb-3">
                                             <Form.Label className="fw-semibold">
                                                 🏷️ Select Category
                                             </Form.Label>
@@ -290,6 +292,23 @@ const UserDashboard = () => {
                                                 <option value="Something else">🔧 Something else</option>
                                             </Form.Select>
                                         </Form.Group>
+
+                                        {formData.category === 'Something else' && (
+                                            <Form.Group className="mb-3">
+                                                <Form.Label className="fw-semibold">
+                                                    ✏️ Specify Category
+                                                </Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    name="customCategory"
+                                                    value={formData.customCategory}
+                                                    onChange={handleChange}
+                                                    placeholder="Enter the category (e.g., Road Damage, Water Leak, etc.)"
+                                                    required={formData.category === 'Something else'}
+                                                    style={{ borderRadius: '10px' }}
+                                                />
+                                            </Form.Group>
+                                        )}
 
                                         <Form.Group className="mb-3">
                                             <Form.Label className="fw-semibold">
