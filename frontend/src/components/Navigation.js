@@ -12,12 +12,14 @@ const Navigation = () => {
         navigate('/');
     };    return (
         <Navbar expand="lg" className="navbar shadow-sm">
-            <Container fluid>
+            <Container fluid>                
                 <Navbar.Brand as={Link} to="/" className="fw-bold fs-4">
                     🌱 SustainHub
                 </Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">                    <Nav className="ms-auto align-items-center">
+                <Navbar.Toggle 
+                    aria-controls="basic-navbar-nav"
+                />
+                <Navbar.Collapse id="basic-navbar-nav" className="dropdown-menu-custom"><Nav className="ms-auto align-items-center">
                         {!isAuthenticated ? (
                             <>
                                 <Nav.Link as={Link} to="/" className="px-2">Home</Nav.Link>

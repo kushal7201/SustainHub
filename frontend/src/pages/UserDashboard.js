@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import Navigation from '../components/Navigation';
+import API_CONFIG from '../config/api';
 
 const UserDashboard = () => {
     const { user } = useAuth();    const [formData, setFormData] = useState({
@@ -23,7 +24,7 @@ const UserDashboard = () => {
 
     const loadUserIssues = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/issues/user/my-issues`);
+            const response = await axios.get(`${API_CONFIG.REACT_APP_API_BASE_URL}/issues/user/my-issues`);
             setUserIssues(response.data);
         } catch (error) {
             console.error('Error loading user issues:', error);
@@ -187,7 +188,7 @@ const UserDashboard = () => {
             imageFormData.append('image', formData.image);
 
             const uploadResponse = await axios.post(
-                `${process.env.REACT_APP_API_BASE_URL}/upload/image`,
+                `${API_CONFIG.REACT_APP_API_BASE_URL}/upload/image`,
                 imageFormData,
                 {
                     headers: {
@@ -203,7 +204,7 @@ const UserDashboard = () => {
                 imageUrl: uploadResponse.data.url
             };
 
-            await axios.post(`${process.env.REACT_APP_API_BASE_URL}/issues`, issueData);            toast.update(toastId, {
+            await axios.post(`${API_CONFIG.REACT_APP_API_BASE_URL}/issues`, issueData);            toast.update(toastId, {
                 render: 'Issue submitted successfully! It will be reviewed by admin.',
                 type: 'success',
                 isLoading: false,

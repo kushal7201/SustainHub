@@ -5,6 +5,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 import Navigation from '../components/Navigation';
+import API_CONFIG from '../config/api';
 
 const IssueDetails = () => {
     const { id } = useParams();
@@ -20,7 +21,7 @@ const IssueDetails = () => {
 
     const loadIssueDetails = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/issues/${id}`);
+            const response = await axios.get(`${API_CONFIG.REACT_APP_API_BASE_URL}/issues/${id}`);
             setIssue(response.data);
             setNewStatus(response.data.status);
         } catch (error) {
@@ -36,7 +37,7 @@ const IssueDetails = () => {
         setUpdating(true);
         try {
             const response = await axios.put(
-                `${process.env.REACT_APP_API_BASE_URL}/issues/${id}/status`,
+                `${API_CONFIG.REACT_APP_API_BASE_URL}/issues/${id}/status`,
                 { status: newStatus }
             );
             setIssue(response.data);

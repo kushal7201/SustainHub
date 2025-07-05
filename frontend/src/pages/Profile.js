@@ -4,6 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 import Navigation from '../components/Navigation';
+import API_CONFIG from '../config/api';
 
 const Profile = () => {
     const { user, updateUser } = useAuth();
@@ -42,7 +43,7 @@ const Profile = () => {
         setLoading(true);
 
         try {
-            const response = await axios.put(`${process.env.REACT_APP_API_BASE_URL}/users/profile`, {
+            const response = await axios.put(`${API_CONFIG.REACT_APP_API_BASE_URL}/users/profile`, {
                 firstName: formData.firstName,
                 lastName: formData.lastName,
                 phone: formData.phone,

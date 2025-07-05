@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import Navigation from '../components/Navigation';
+import API_CONFIG from '../config/api';
 
 const AdminDashboard = () => {
     const { user } = useAuth();
@@ -25,7 +26,7 @@ const AdminDashboard = () => {
 
     const loadIssues = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/issues/admin/map`);
+            const response = await axios.get(`${API_CONFIG.REACT_APP_API_BASE_URL}/issues/admin/map`);
             setIssues(response.data);
         } catch (error) {
             console.error('Error loading issues:', error);
