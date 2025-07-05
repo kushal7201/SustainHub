@@ -1,10 +1,10 @@
 import React from 'react';
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Navigation = () => {
-    const { user, logout, isAuthenticated, isAdmin } = useAuth();
+    const { logout, isAuthenticated, isAdmin } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = () => {
