@@ -202,10 +202,12 @@ const AdminDashboard = () => {
         <>
             <Navigation />
             <div style={{ backgroundColor: 'var(--primary-lightest)', minHeight: '100vh' }}>
-                <Container fluid className="py-4">
-                    <div className="text-center mb-4">
+                <Container fluid className="py-4">                    <div className="text-center mb-4">
                         <h3 style={{ color: 'var(--primary-dark)' }}>
-                            👨‍💼 Admin Dashboard - Welcome back, {user?.firstName} {user?.lastName}
+                            <svg width="30" height="30" fill="currentColor" className="me-2" viewBox="0 0 16 16">
+                                <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+                            </svg>
+                            Admin Dashboard
                         </h3>
                         <p className="text-muted">Monitor and manage community issues</p>
                     </div>
@@ -261,7 +263,7 @@ const AdminDashboard = () => {
                                         <h5 className="mb-0" style={{ color: 'var(--primary-dark)' }}>
                                             📋 Issues List
                                         </h5>
-                                        <Badge bg="primary">{issues.length} Total</Badge>
+                                        <Badge className='total-issues'>{issues.length} Total</Badge>
                                     </div>
                                     
                                     {/* Sort Dropdown */}

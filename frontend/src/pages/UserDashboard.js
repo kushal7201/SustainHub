@@ -240,7 +240,7 @@ const UserDashboard = () => {
                 <Container className="py-4">
                     <div className="text-center mb-4">
                         <h3 style={{ color: 'var(--primary-dark)' }}>
-                            👋 Welcome Back, {user?.firstName} {user?.lastName}!
+                            👋 Welcome Back, {user?.firstName}!
                         </h3>
                         <p className="text-muted">Help make your community better by reporting issues</p>
                     </div>
