@@ -1,33 +1,242 @@
 # Sustain Hub
-### Overview
-Sustain Hub is a web platform designed to empower citizens to report and track public facility issues within their local community and get reward points. By providing an intuitive interface, Sustain Hub makes it easy for users to pinpoint problems and submit detailed reports, including photos, which can be accessed and addressed by local authorities.
-### Key Features
-- User registration and authentication for both citizens and authorities
-- Issue reporting with location tagging, descriptions, and photo attachments
-- Issue management dashboard for authorities to view, filter, and update issue reports
-- Map integration to display issue locations and details for the admin
-- User-friendly and responsive design
 
-### Tech Stack
-- ReactJs
-- NextJS
-- HTML/CSS/Javascript
-- Bootstrap
-- NodeJs
-- SQL
+## Overview
+Sustain Hub is a comprehensive web platform designed to empower citizens to report and track public facility issues within their local community while earning reward points. The platform provides an intuitive interface that makes it easy for users to pinpoint problems and submit detailed reports with photos and precise location data. Local authorities can efficiently track, manage, and resolve reported issues through a dedicated admin dashboard.
 
+## Key Features
 
-#### Getting Started
-- To set up Sustain Hub locally, follow these steps:
-Clone this repository: ```git clone https://github.com/kushal7201/Sustain_Hub_GSC```
-- Install project dependencies using the npm package manager ```npm install```.
-- Create a database for the project and update the database configuration settings accordingly.
-- Run the project locally using the command ```npm start```.
+### For Citizens
+- **User Registration & Authentication** - Secure account creation and login system
+- **Issue Reporting** - Report problems with category selection, detailed descriptions, and photo uploads
+- **Automatic Location Detection** - GPS-based location tagging for precise issue positioning
+- **Reward System** - Earn points for reporting issues (10 points per verified report)
+- **Profile Management** - Update personal information and track reward points
+- **Real-time Status Updates** - Track the progress of reported issues
 
-### Other Contributors
-- Sugam Sareen
-- Nandini Gupta
-- Parimal Amrutkar
+### For Administrators
+- **Admin Dashboard** - Comprehensive overview of all reported issues
+- **Interactive Map Interface** - Visual representation of issues using Geoapify maps
+- **Issue Management** - Update issue status (Pending → In Progress → Resolved)
+- **Detailed Issue Views** - Access complete information including photos and reporter details
+- **Status-based Color Coding** - Visual indicators for issue priorities and status
 
-### License
+### Technical Features
+- **Responsive Design** - Mobile-friendly interface using Bootstrap
+- **Secure Authentication** - JWT-based authentication with role-based access control
+- **Image Storage** - Cloudinary integration for reliable image hosting
+- **Database Security** - MongoDB with proper data validation and sanitization
+- **API Documentation** - RESTful API endpoints with proper error handling
+
+## Tech Stack
+
+### Frontend
+- **React 18** - Modern JavaScript library for building user interfaces
+- **React Router** - Client-side routing for single-page application
+- **Bootstrap 5** - Responsive CSS framework
+- **React Bootstrap** - Bootstrap components for React
+- **Axios** - HTTP client for API requests
+- **React Toastify** - Toast notifications for user feedback
+
+### Backend
+- **Node.js** - JavaScript runtime environment
+- **Express.js** - Web application framework
+- **MongoDB** - NoSQL database for data storage
+- **Mongoose** - MongoDB object modeling for Node.js
+- **JWT (JSON Web Tokens)** - Secure authentication
+- **bcryptjs** - Password hashing
+- **Multer** - File upload handling
+- **Cloudinary** - Cloud-based image storage
+- **CORS** - Cross-origin resource sharing
+
+### Maps & Location
+- **Geoapify API** - Interactive maps and geocoding services
+- **Browser Geolocation API** - Automatic location detection
+
+### Development Tools
+- **nodemon** - Development server with auto-restart
+- **dotenv** - Environment variable management
+- **express-validator** - Input validation and sanitization
+
+## Project Structure
+
+```
+SustainHub/
+├── frontend/                 # React frontend application
+│   ├── public/              # Static assets
+│   ├── src/
+│   │   ├── components/      # Reusable React components
+│   │   ├── pages/           # Page components (Home, Dashboard, etc.)
+│   │   ├── context/         # React context for state management
+│   │   ├── App.js           # Main application component
+│   │   └── index.js         # Application entry point
+│   ├── package.json         # Frontend dependencies
+│   └── .env                 # Frontend environment variables
+│
+├── backend/                 # Node.js backend application
+│   ├── models/              # MongoDB models (User, Issue)
+│   ├── routes/              # API route handlers
+│   ├── middleware/          # Authentication middleware
+│   ├── server.js            # Express server setup
+│   ├── package.json         # Backend dependencies
+│   └── .env                 # Backend environment variables
+│
+├── LICENSE                  # MIT License
+└── README.md               # Project documentation
+```
+
+## API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+
+### Users
+- `GET /api/users/profile` - Get user profile
+- `PUT /api/users/profile` - Update user profile
+- `GET /api/users/:id` - Get user by ID (admin)
+
+### Issues
+- `POST /api/issues` - Create new issue
+- `GET /api/issues/admin/all` - Get all issues (admin)
+- `GET /api/issues/admin/map` - Get map data for admin
+- `GET /api/issues/:id` - Get issue details
+- `GET /api/issues/user/my-issues` - Get user's issues
+- `PUT /api/issues/:id/status` - Update issue status (admin)
+
+### File Upload
+- `POST /api/upload/image` - Upload issue image
+
+## Installation & Setup
+
+### Prerequisites
+- Node.js (v14 or higher)
+- npm or yarn package manager
+- MongoDB Atlas account (or local MongoDB installation)
+- Cloudinary account for image storage
+- Geoapify API key
+
+### Environment Variables
+
+Create `.env` files in both frontend and backend directories:
+
+#### Backend (.env)
+```env
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret_key
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+```
+
+#### Frontend (.env)
+```env
+REACT_APP_API_BASE_URL=http://localhost:5000/api
+REACT_APP_GEOAPIFY_API_KEY=your_geoapify_api_key
+```
+
+### Installation Steps
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/kushal7201/Sustain_Hub_GSC
+   cd Sustain_Hub_GSC
+   ```
+
+2. **Install Backend Dependencies**
+   ```bash
+   cd backend
+   npm install
+   ```
+
+3. **Install Frontend Dependencies**
+   ```bash
+   cd ../frontend
+   npm install
+   ```
+
+4. **Set up Environment Variables**
+   - Create `.env` files in both `backend/` and `frontend/` directories
+   - Add the required environment variables as shown above
+
+5. **Start the Development Servers**
+
+   **Backend (Terminal 1):**
+   ```bash
+   cd backend
+   npm run dev
+   ```
+
+   **Frontend (Terminal 2):**
+   ```bash
+   cd frontend
+   npm start
+   ```
+
+6. **Access the Application**
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:5000
+
+## Usage
+
+### For Citizens
+1. **Register/Login** - Create an account or sign in
+2. **Report Issues** - Click "Report a Problem" and fill out the form
+3. **Add Details** - Select category, add description, and upload a photo
+4. **Submit** - Your location will be automatically detected and the issue submitted
+5. **Track Progress** - View your profile to see reward points and issue status
+
+### For Administrators
+1. **Admin Login** - Use admin credentials to access the admin dashboard
+2. **View Map** - See all reported issues on the interactive map
+3. **Manage Issues** - Click on markers to view detailed information
+4. **Update Status** - Change issue status from Pending → In Progress → Resolved
+5. **Monitor Progress** - Track community issues and response effectiveness
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/new-feature`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push to the branch (`git push origin feature/new-feature`)
+5. Create a Pull Request
+
+## Security Features
+
+- **JWT Authentication** - Secure token-based authentication
+- **Password Hashing** - bcrypt for secure password storage
+- **Input Validation** - Server-side validation for all inputs
+- **CORS Protection** - Configured cross-origin resource sharing
+- **Environment Variables** - Sensitive data stored securely
+- **Role-based Access** - Different permissions for users and admins
+
+## Future Enhancements
+
+- **Push Notifications** - Real-time updates for issue status changes
+- **Advanced Analytics** - Dashboard with issue statistics and trends
+- **Mobile App** - Native mobile applications for iOS and Android
+- **Email Notifications** - Automated updates via email
+- **Issue Categories** - Expanded categories with custom icons
+- **Community Voting** - Allow citizens to upvote important issues
+
+## License
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+For support, issues, or feature requests, please:
+1. Open an issue on GitHub
+2. Contact the development team
+3. Check the documentation for common solutions
+
+## Acknowledgments
+
+- **Geoapify** for providing excellent mapping services
+- **Cloudinary** for reliable image storage solutions
+- **MongoDB Atlas** for cloud database hosting
+- **Open Source Community** for the amazing libraries and tools used in this project
+
+---
+
+**Made with ❤️ for building better communities**
