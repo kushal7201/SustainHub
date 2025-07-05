@@ -26,9 +26,12 @@ const userSchema = new mongoose.Schema({
     },
     address: {
         type: String
-    },
-    phone: {
+    },    phone: {
         type: String
+    },
+    profilePhoto: {
+        type: String,
+        default: null
     },
     rewards: {
         type: Number,

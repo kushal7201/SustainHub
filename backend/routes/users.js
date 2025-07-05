@@ -18,11 +18,16 @@ router.get('/profile', authMiddleware, async (req, res) => {
 // Update user profile
 router.put('/profile', authMiddleware, async (req, res) => {
     try {
-        const { firstName, lastName, phone, address } = req.body;
+        const { firstName, lastName, phone, address, profilePhoto } = req.body;
+        
+        const updateData = { firstName, lastName, phone, address };
+        if (profilePhoto !== undefined) {
+            updateData.profilePhoto = profilePhoto;
+        }
         
         const user = await User.findByIdAndUpdate(
             req.user._id,
-            { firstName, lastName, phone, address },
+            updateData,
             { new: true }
         ).select('-password');
 
@@ -56,11 +61,9 @@ router.get('/leaderboard/:page?', authMiddleware, async (req, res) => {
 
         // Get total count for pagination
         const totalUsers = await User.countDocuments({ role: 'USER' });
-        const totalPages = Math.ceil(totalUsers / limit);
-
-        // Get users sorted by rewards (descending) with pagination
+        const totalPages = Math.ceil(totalUsers / limit);        // Get users sorted by rewards (descending) with pagination
         const users = await User.find({ role: 'USER' })
-            .select('firstName lastName rewards')
+            .select('firstName lastName rewards profilePhoto')
             .sort({ rewards: -1, createdAt: 1 }) // Secondary sort by join date for ties
             .skip(skip)
             .limit(limit);

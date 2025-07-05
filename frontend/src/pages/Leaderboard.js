@@ -131,15 +131,28 @@ const Leaderboard = () => {
                                                                 <Badge bg={rankBadge.variant} className="px-3 py-2">
                                                                     {rankBadge.icon} {rankBadge.text}
                                                                 </Badge>
-                                                            </td>
-                                                            <td className="py-3">
+                                                            </td>                                                            <td className="py-3">
                                                                 <div className="d-flex align-items-center">
-                                                                    <div className="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" 
-                                                                         style={{ width: '40px', height: '40px', backgroundColor: 'var(--primary-medium)' }}>
-                                                                        <span className="text-white fw-bold">
-                                                                            {userEntry.firstName?.[0]?.toUpperCase()}{userEntry.lastName?.[0]?.toUpperCase()}
-                                                                        </span>
-                                                                    </div>
+                                                                    {userEntry.profilePhoto ? (
+                                                                        <img 
+                                                                            src={userEntry.profilePhoto} 
+                                                                            alt={`${userEntry.firstName} ${userEntry.lastName}`}
+                                                                            className="rounded-circle me-3"
+                                                                            style={{ 
+                                                                                width: '40px', 
+                                                                                height: '40px', 
+                                                                                objectFit: 'cover',
+                                                                                border: '2px solid var(--primary-light)'
+                                                                            }}
+                                                                        />
+                                                                    ) : (
+                                                                        <div className="rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                                                             style={{ width: '40px', height: '40px', backgroundColor: 'var(--primary-medium)' }}>
+                                                                            <span className="text-white fw-bold">
+                                                                                {userEntry.firstName?.[0]?.toUpperCase()}{userEntry.lastName?.[0]?.toUpperCase()}
+                                                                            </span>
+                                                                        </div>
+                                                                    )}
                                                                     <div>
                                                                         <div className="fw-semibold" style={{ color: 'var(--primary-dark)' }}>
                                                                             {userEntry.firstName} {userEntry.lastName}
