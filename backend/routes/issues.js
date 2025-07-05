@@ -21,9 +21,7 @@ router.post('/', [
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { category, description, longitude, latitude, imageUrl } = req.body;
-
-        const issue = new Issue({
+        const { category, description, longitude, latitude, imageUrl } = req.body;        const issue = new Issue({
             userId: req.user._id,
             category,
             description,
@@ -33,11 +31,6 @@ router.post('/', [
         });
 
         await issue.save();
-
-        // Award points to user
-        await User.findByIdAndUpdate(req.user._id, {
-            $inc: { rewards: 10 }
-        });
 
         res.status(201).json(issue);
     } catch (error) {
@@ -62,7 +55,10 @@ router.get('/admin/all', authMiddleware, adminMiddleware, async (req, res) => {
 // Get map data for admin
 router.get('/admin/map', authMiddleware, adminMiddleware, async (req, res) => {
     try {
-        const issues = await Issue.find({}, 'longitude latitude _id category status');
+        const issues = await Issue.find()
+            .populate('userId', 'firstName lastName email')
+            .select('longitude latitude _id category status description createdAt userId')
+            .sort({ createdAt: -1 });
         res.json(issues);
     } catch (error) {
         console.error(error);
@@ -104,14 +100,24 @@ router.put('/:id/status', authMiddleware, adminMiddleware, async (req, res) => {
     try {
         const { status } = req.body;
         
+        // Get the current issue to check previous status
+        const currentIssue = await Issue.findById(req.params.id);
+        if (!currentIssue) {
+            return res.status(404).json({ message: 'Issue not found' });
+        }
+
+        // Update the issue status
         const issue = await Issue.findByIdAndUpdate(
             req.params.id,
             { status },
             { new: true }
         ).populate('userId', 'firstName lastName email');
 
-        if (!issue) {
-            return res.status(404).json({ message: 'Issue not found' });
+        // Award points when status changes from ACCEPTED to IN_PROGRESS
+        if (currentIssue.status === 'ACCEPTED' && status === 'IN_PROGRESS') {
+            await User.findByIdAndUpdate(issue.userId._id, {
+                $inc: { rewards: 10 }
+            });
         }
 
         res.json(issue);

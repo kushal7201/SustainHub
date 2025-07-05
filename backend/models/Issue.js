@@ -26,10 +26,9 @@ const issueSchema = new mongoose.Schema({
     imageUrl: {
         type: String,
         required: true
-    },
-    status: {
+    },    status: {
         type: String,
-        enum: ['PENDING', 'IN_PROGRESS', 'RESOLVED'],
+        enum: ['PENDING', 'ACCEPTED', 'REJECTED', 'IN_PROGRESS', 'RESOLVED'],
         default: 'PENDING'
     }
 }, {
