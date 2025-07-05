@@ -13,11 +13,9 @@ const issueSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
-    },
-    category: {
+    },    category: {
         type: String,
-        required: true,
-        enum: ['Garbage Dump', 'Street Light Repair', 'Something else']
+        required: true
     },
     description: {
         type: String,
