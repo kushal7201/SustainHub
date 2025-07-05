@@ -16,7 +16,7 @@ app.set('trust proxy', 1);
 const allowedOrigins = process.env.ALLOWED_ORIGINS 
     ? process.env.ALLOWED_ORIGINS.split(',')
     : process.env.NODE_ENV === 'production' 
-        ? ['https://sustainhub-frontend.pages.dev'] 
+        ? ['https://sustainhub.pages.dev'] 
         : ['http://localhost:3000', 'http://127.0.0.1:3000'];
 
 app.use(cors({
