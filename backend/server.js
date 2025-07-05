@@ -44,12 +44,19 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 // Routes
 app.get('/', (req, res) => {
-    res.json({ 
-        message: 'SustainHub Backend API', 
-        version: '1.0.0',
-        status: 'running',
-        timestamp: new Date().toISOString()
-    });
+    const healthStatus = {
+        service: 'SustainHub Backend API',
+        status: 'healthy',
+        environment: process.env.NODE_ENV || 'development',
+    };
+
+    // Set status based on database connection
+    if (mongoose.connection.readyState !== 1) {
+        healthStatus.status = 'unhealthy';
+        return res.status(503).json(healthStatus);
+    }
+
+    res.json(healthStatus);
 });
 
 app.use('/api/auth', require('./routes/auth'));
@@ -59,7 +66,19 @@ app.use('/api/upload', require('./routes/upload'));
 
 // Health check route
 app.get('/api/health', (req, res) => {
-    res.json({ message: 'SustainHub Backend is running!' });
+    const healthCheck = {
+        message: 'SustainHub Backend is running!',
+        status: mongoose.connection.readyState === 1 ? 'healthy' : 'unhealthy',
+        timestamp: new Date().toISOString(),
+        database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+        uptime: process.uptime() + ' seconds'
+    };
+
+    if (mongoose.connection.readyState !== 1) {
+        return res.status(503).json(healthCheck);
+    }
+
+    res.json(healthCheck);
 });
 
 // Error handling middleware
