@@ -106,6 +106,21 @@ router.put('/:id/status', authMiddleware, adminMiddleware, async (req, res) => {
             return res.status(404).json({ message: 'Issue not found' });
         }
 
+        // Validate status transitions (linear workflow)
+        const validTransitions = {
+            'PENDING': ['ACCEPTED', 'REJECTED'],
+            'ACCEPTED': ['IN_PROGRESS'],
+            'IN_PROGRESS': ['RESOLVED'],
+            'REJECTED': [], // Final state - no transitions allowed
+            'RESOLVED': [] // Final state - no transitions allowed
+        };
+
+        if (!validTransitions[currentIssue.status].includes(status)) {
+            return res.status(400).json({ 
+                message: `Invalid status transition from ${currentIssue.status} to ${status}` 
+            });
+        }
+
         // Update the issue status
         const issue = await Issue.findByIdAndUpdate(
             req.params.id,
@@ -113,8 +128,8 @@ router.put('/:id/status', authMiddleware, adminMiddleware, async (req, res) => {
             { new: true }
         ).populate('userId', 'firstName lastName email');
 
-        // Award points when status changes from ACCEPTED to IN_PROGRESS
-        if (currentIssue.status === 'ACCEPTED' && status === 'IN_PROGRESS') {
+        // Award points when issue is ACCEPTED (user gets points immediately upon acceptance)
+        if (currentIssue.status === 'PENDING' && status === 'ACCEPTED') {
             await User.findByIdAndUpdate(issue.userId._id, {
                 $inc: { rewards: 10 }
             });

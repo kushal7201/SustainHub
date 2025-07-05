@@ -7,7 +7,7 @@ import Navigation from '../components/Navigation';
 import API_CONFIG from '../config/api';
 
 const UserDashboard = () => {
-    const { user } = useAuth();    const [formData, setFormData] = useState({
+    const { user, refreshUser } = useAuth();const [formData, setFormData] = useState({
         category: 'Garbage Dump',
         customCategory: '',
         description: '',
@@ -218,10 +218,9 @@ const UserDashboard = () => {
             });
               // Reset file input
             const fileInput = document.getElementById('image');
-            if (fileInput) fileInput.value = '';
-
-            // Reload user issues
+            if (fileInput) fileInput.value = '';            // Reload user issues and refresh user data
             loadUserIssues();
+            refreshUser();
 
         } catch (error) {
             console.error('Error submitting issue:', error);

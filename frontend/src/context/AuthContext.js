@@ -90,10 +90,22 @@ export const AuthProvider = ({ children }) => {
         setToken(null);
         setUser(null);
         delete axios.defaults.headers.common['Authorization'];
+    };    const updateUser = (userData) => {
+        setUser(prev => ({ ...prev, ...userData }));
     };
 
-    const updateUser = (userData) => {
-        setUser(prev => ({ ...prev, ...userData }));
+    const refreshUser = async () => {
+        if (token) {
+            try {
+                const response = await axios.get(`${API_CONFIG.REACT_APP_API_BASE_URL}/users/profile`);
+                setUser(response.data);
+                return response.data;
+            } catch (error) {
+                console.error('Error refreshing user:', error);
+                return null;
+            }
+        }
+        return null;
     };
 
     const value = {
@@ -104,6 +116,7 @@ export const AuthProvider = ({ children }) => {
         register,
         logout,
         updateUser,
+        refreshUser,
         isAuthenticated: !!token,
         isAdmin: user?.role === 'ADMIN'
     };

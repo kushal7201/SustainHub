@@ -390,7 +390,7 @@ code {
     top: 100% !important;
     right: 15px !important;
     left: auto !important;
-    width: 250px !important;
+    width: 150px !important;
     background-color: var(--primary-dark) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 8px !important;

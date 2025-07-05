@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Card, Button, Badge, Form, Alert } from 'react-bootstrap';
+import { Container, Card, Button, Badge, Alert } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -10,20 +10,15 @@ import API_CONFIG from '../config/api';
 const IssueDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { isAdmin } = useAuth();
-    const [issue, setIssue] = useState(null);
+    const { isAdmin } = useAuth();    const [issue, setIssue] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [updating, setUpdating] = useState(false);
-    const [newStatus, setNewStatus] = useState('');    useEffect(() => {
+    const [updating, setUpdating] = useState(false);useEffect(() => {
         loadIssueDetails();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
-
-    const loadIssueDetails = async () => {
+    }, [id]);    const loadIssueDetails = async () => {
         try {
             const response = await axios.get(`${API_CONFIG.REACT_APP_API_BASE_URL}/issues/${id}`);
             setIssue(response.data);
-            setNewStatus(response.data.status);
         } catch (error) {
             console.error('Error loading issue details:', error);
             toast.error('Error loading issue details');
@@ -31,28 +26,52 @@ const IssueDetails = () => {
         } finally {
             setLoading(false);
         }
-    };    const updateStatus = async () => {
-        if (!isAdmin || newStatus === issue.status) return;
+    };    const updateStatus = async (status) => {
+        if (!isAdmin) return;
 
         setUpdating(true);
         try {
             const response = await axios.put(
                 `${API_CONFIG.REACT_APP_API_BASE_URL}/issues/${id}/status`,
-                { status: newStatus }
+                { status }
             );
             setIssue(response.data);
             
             let message = 'Status updated successfully!';
-            if (issue.status === 'ACCEPTED' && newStatus === 'IN_PROGRESS') {
+            if (issue.status === 'PENDING' && status === 'ACCEPTED') {
                 message += ' User has been awarded 10 reward points.';
             }
             
             toast.success(message);
         } catch (error) {
             console.error('Error updating status:', error);
-            toast.error('Error updating status');
+            toast.error(error.response?.data?.message || 'Error updating status');
         } finally {
-            setUpdating(false);        }
+            setUpdating(false);
+        }
+    };
+
+    // Get available actions based on current status
+    const getAvailableActions = (currentStatus) => {
+        switch (currentStatus) {
+            case 'PENDING':
+                return [
+                    { status: 'ACCEPTED', label: '✅ Accept', variant: 'success' },
+                    { status: 'REJECTED', label: '❌ Reject', variant: 'danger' }
+                ];
+            case 'ACCEPTED':
+                return [
+                    { status: 'IN_PROGRESS', label: '🔄 Mark In Progress', variant: 'warning' }
+                ];
+            case 'IN_PROGRESS':
+                return [
+                    { status: 'RESOLVED', label: '✅ Mark Resolved', variant: 'success' }
+                ];
+            case 'REJECTED':
+            case 'RESOLVED':
+            default:
+                return []; // No actions available for final states
+        }
     };
 
     const getStatusVariant = (status) => {
@@ -170,40 +189,39 @@ const IssueDetails = () => {
                                                         border: '3px solid var(--primary-light)'
                                                     }}
                                                 />
-                                            </div>
-
-                                            {isAdmin && (
+                                            </div>                                            {isAdmin && (
                                                 <div className="mt-4">
                                                     <h5 style={{ color: 'var(--primary-dark)' }}>⚙️ Update Status</h5>
-                                                    <div className="d-flex gap-2">
-                                                        <Form.Select 
-                                                            value={newStatus} 
-                                                            onChange={(e) => setNewStatus(e.target.value)}
-                                                            style={{ 
-                                                                width: 'auto',
-                                                                borderRadius: '10px'
-                                                            }}                                                        >
-                                                            <option value="PENDING">🔴 Pending</option>
-                                                            <option value="ACCEPTED">🔵 Accepted</option>
-                                                            <option value="REJECTED">⚫ Rejected</option>
-                                                            <option value="IN_PROGRESS">🟡 In Progress</option>
-                                                            <option value="RESOLVED">🟢 Resolved</option>
-                                                        </Form.Select>
-                                                        <Button 
-                                                            variant="primary" 
-                                                            onClick={updateStatus}
-                                                            disabled={updating || newStatus === issue.status}
-                                                            style={{ borderRadius: '10px' }}
-                                                        >
-                                                            {updating ? (
-                                                                <>
-                                                                    <span className="spinner-border spinner-border-sm me-2" role="status"></span>
-                                                                    Updating...
-                                                                </>
-                                                            ) : (
-                                                                '💾 Update'
-                                                            )}
-                                                        </Button>
+                                                    <div className="d-flex gap-2 flex-wrap">
+                                                        {getAvailableActions(issue.status).length === 0 ? (
+                                                            <div className="alert alert-info">
+                                                                <small>
+                                                                    {issue.status === 'REJECTED' ? 
+                                                                        '❌ This issue has been rejected and cannot be modified.' :
+                                                                        '✅ This issue has been resolved and cannot be modified.'
+                                                                    }
+                                                                </small>
+                                                            </div>
+                                                        ) : (
+                                                            getAvailableActions(issue.status).map((action) => (
+                                                                <Button 
+                                                                    key={action.status}
+                                                                    variant={action.variant}
+                                                                    onClick={() => updateStatus(action.status)}
+                                                                    disabled={updating}
+                                                                    style={{ borderRadius: '10px' }}
+                                                                >
+                                                                    {updating ? (
+                                                                        <>
+                                                                            <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                                                                            Updating...
+                                                                        </>
+                                                                    ) : (
+                                                                        action.label
+                                                                    )}
+                                                                </Button>
+                                                            ))
+                                                        )}
                                                     </div>
                                                 </div>
                                             )}

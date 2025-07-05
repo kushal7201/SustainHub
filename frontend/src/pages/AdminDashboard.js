@@ -281,7 +281,7 @@ const AdminDashboard = () => {
                                     </Form.Select>
 
                                     {/* Issues List */}
-                                    <div style={{ maxHeight: '55vh', overflowY: 'auto' }}>
+                                    <div style={{ maxHeight: '70vh', overflowY: 'auto' }}>
                                         {getSortedIssues().length === 0 ? (
                                             <div className="text-center py-4">
                                                 <p className="text-muted">No issues found for the selected filter.</p>

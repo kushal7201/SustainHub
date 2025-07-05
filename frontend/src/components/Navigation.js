@@ -19,7 +19,8 @@ const Navigation = () => {
                 <Navbar.Toggle 
                     aria-controls="basic-navbar-nav"
                 />
-                <Navbar.Collapse id="basic-navbar-nav" className="dropdown-menu-custom"><Nav className="ms-auto align-items-center">
+                <Navbar.Collapse id="basic-navbar-nav" className="dropdown-menu-custom">
+                    <Nav className="ms-auto">
                         {!isAuthenticated ? (
                             <>
                                 <Nav.Link as={Link} to="/" className="px-2">Home</Nav.Link>
@@ -42,10 +43,16 @@ const Navigation = () => {
                         ) : (
                             <>
                                 <Nav.Link as={Link} to={isAdmin ? "/admin" : "/dashboard"} className="px-2">
-                                    📊 Dashboard
+                                    <svg width="20" height="20" fill="currentColor" className="me-1" viewBox="0 0 16 16">
+                                        <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z"/>
+                                    </svg>
+                                    Dashboard
                                 </Nav.Link>
                                 <Nav.Link as={Link} to="/profile" className="px-2">
-                                    👤 Profile
+                                    <svg width="20" height="20" fill="currentColor" className="me-1" viewBox="0 0 16 16">
+                                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                                    </svg>
+                                    Profile
                                 </Nav.Link>
                                 <Button 
                                     variant="outline-light" 
