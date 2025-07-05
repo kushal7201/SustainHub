@@ -57,101 +57,127 @@ const Profile = () => {
         } finally {
             setLoading(false);
         }
-    };
-
-    return (
+    };    return (
         <>
             <Navigation />
-            <Container className="py-4">
-                <div className="row justify-content-center">
-                    <div className="col-md-8">
-                        <Card>
-                            <Card.Body>
-                                <h3 className="text-center mb-4">My Profile</h3>
-                                
-                                {user?.role === 'USER' && (
-                                    <Alert variant="info" className="text-center">
-                                        <strong>Reward Points: {formData.rewards}</strong>
-                                    </Alert>
-                                )}
+            <div style={{ backgroundColor: 'var(--primary-lightest)', minHeight: '100vh' }}>
+                <Container className="py-4">
+                    <div className="row justify-content-center">
+                        <div className="col-md-8">
+                            <Card className="shadow-lg border-0">
+                                <Card.Header style={{ 
+                                    backgroundColor: 'var(--primary-medium)', 
+                                    color: 'white',
+                                    borderRadius: '15px 15px 0 0'
+                                }}>
+                                    <h3 className="text-center mb-0">👤 My Profile</h3>
+                                </Card.Header>
+                                <Card.Body className="p-4">
+                                    {user?.role === 'USER' && (
+                                        <Alert variant="info" className="text-center mb-4">
+                                            <h5 className="mb-2">🏆 Reward Points</h5>
+                                            <h2 style={{ color: 'var(--primary-dark)' }}>{formData.rewards}</h2>
+                                            <small>Keep reporting issues to earn more points!</small>
+                                        </Alert>
+                                    )}
 
-                                <Form onSubmit={handleSubmit}>
-                                    <div className="row">
-                                        <div className="col-md-6">
-                                            <Form.Group className="mb-3">
-                                                <Form.Label>First Name</Form.Label>
-                                                <Form.Control
-                                                    type="text"
-                                                    name="firstName"
-                                                    value={formData.firstName}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            </Form.Group>
+                                    <Form onSubmit={handleSubmit}>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <Form.Group className="mb-3">
+                                                    <Form.Label className="fw-semibold">👤 First Name</Form.Label>
+                                                    <Form.Control
+                                                        type="text"
+                                                        name="firstName"
+                                                        value={formData.firstName}
+                                                        onChange={handleChange}
+                                                        required
+                                                        style={{ borderRadius: '10px', padding: '12px' }}
+                                                    />
+                                                </Form.Group>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <Form.Group className="mb-3">
+                                                    <Form.Label className="fw-semibold">👤 Last Name</Form.Label>
+                                                    <Form.Control
+                                                        type="text"
+                                                        name="lastName"
+                                                        value={formData.lastName}
+                                                        onChange={handleChange}
+                                                        required
+                                                        style={{ borderRadius: '10px', padding: '12px' }}
+                                                    />
+                                                </Form.Group>
+                                            </div>
                                         </div>
-                                        <div className="col-md-6">
-                                            <Form.Group className="mb-3">
-                                                <Form.Label>Last Name</Form.Label>
-                                                <Form.Control
-                                                    type="text"
-                                                    name="lastName"
-                                                    value={formData.lastName}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            </Form.Group>
-                                        </div>
-                                    </div>
 
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Email</Form.Label>
-                                        <Form.Control
-                                            type="email"
-                                            name="email"
-                                            value={formData.email}
-                                            disabled
-                                            className="bg-light"
-                                        />
-                                        <Form.Text className="text-muted">
-                                            Email cannot be changed
-                                        </Form.Text>
-                                    </Form.Group>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label className="fw-semibold">📧 Email</Form.Label>
+                                            <Form.Control
+                                                type="email"
+                                                name="email"
+                                                value={formData.email}
+                                                disabled
+                                                className="bg-light"
+                                                style={{ borderRadius: '10px', padding: '12px' }}
+                                            />
+                                            <Form.Text className="text-muted">
+                                                Email cannot be changed
+                                            </Form.Text>
+                                        </Form.Group>
 
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Phone</Form.Label>
-                                        <Form.Control
-                                            type="tel"
-                                            name="phone"
-                                            value={formData.phone}
-                                            onChange={handleChange}
-                                        />
-                                    </Form.Group>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label className="fw-semibold">📱 Phone</Form.Label>
+                                            <Form.Control
+                                                type="tel"
+                                                name="phone"
+                                                value={formData.phone}
+                                                onChange={handleChange}
+                                                placeholder="Enter your phone number"
+                                                style={{ borderRadius: '10px', padding: '12px' }}
+                                            />
+                                        </Form.Group>
 
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Address</Form.Label>
-                                        <Form.Control
-                                            as="textarea"
-                                            rows={3}
-                                            name="address"
-                                            value={formData.address}
-                                            onChange={handleChange}
-                                        />
-                                    </Form.Group>
+                                        <Form.Group className="mb-4">
+                                            <Form.Label className="fw-semibold">🏠 Address</Form.Label>
+                                            <Form.Control
+                                                as="textarea"
+                                                rows={3}
+                                                name="address"
+                                                value={formData.address}
+                                                onChange={handleChange}
+                                                placeholder="Enter your address"
+                                                style={{ borderRadius: '10px' }}
+                                            />
+                                        </Form.Group>
 
-                                    <Button 
-                                        type="submit" 
-                                        variant="primary" 
-                                        className="w-100"
-                                        disabled={loading}
-                                    >
-                                        {loading ? 'Updating...' : 'Update Profile'}
-                                    </Button>
-                                </Form>
-                            </Card.Body>
-                        </Card>
+                                        <Button 
+                                            type="submit" 
+                                            variant="primary" 
+                                            className="w-100 fw-semibold"
+                                            disabled={loading}
+                                            style={{ 
+                                                borderRadius: '10px',
+                                                padding: '12px',
+                                                fontSize: '1.1rem'
+                                            }}
+                                        >
+                                            {loading ? (
+                                                <>
+                                                    <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                                                    Updating...
+                                                </>
+                                            ) : (
+                                                '💾 Update Profile'
+                                            )}
+                                        </Button>
+                                    </Form>
+                                </Card.Body>
+                            </Card>
+                        </div>
                     </div>
-                </div>
-            </Container>
+                </Container>
+            </div>
         </>
     );
 };

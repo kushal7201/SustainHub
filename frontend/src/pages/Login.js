@@ -42,53 +42,74 @@ const Login = () => {
         }
         
         setLoading(false);
-    };
-
-    return (
+    };    return (
         <>
             <Navigation />
-            <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
-                <Card style={{ width: '400px' }}>
-                    <Card.Body>
-                        <h2 className="text-center mb-4">Login</h2>
-                        {error && <Alert variant="danger">{error}</Alert>}
-                        <Form onSubmit={handleSubmit}>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Email</Form.Label>
-                                <Form.Control
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control
-                                    type="password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </Form.Group>
-                            <Button 
-                                variant="primary" 
-                                type="submit" 
-                                className="w-100"
-                                disabled={loading}
-                            >
-                                {loading ? 'Logging in...' : 'Login'}
-                            </Button>
-                        </Form>
-                        <div className="text-center mt-3">
-                            <span>Don't have an account? </span>
-                            <Link to="/signup">Sign up</Link>
-                        </div>
-                    </Card.Body>
-                </Card>
-            </Container>
+            <div style={{ backgroundColor: 'var(--primary-lightest)', minHeight: '100vh' }}>
+                <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
+                    <Card style={{ width: '450px' }} className="shadow-lg border-0">
+                        <Card.Body className="p-5">
+                            <div className="text-center mb-4">
+                                <h2 style={{ color: 'var(--primary-dark)' }}>🔐 Welcome Back</h2>
+                                <p className="text-muted">Sign in to your SustainHub account</p>
+                            </div>
+                            {error && <Alert variant="danger">{error}</Alert>}
+                            <Form onSubmit={handleSubmit}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label className="fw-semibold">📧 Email</Form.Label>
+                                    <Form.Control
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        placeholder="Enter your email address"
+                                        required
+                                        style={{ borderRadius: '10px', padding: '12px' }}
+                                    />
+                                </Form.Group>
+                                <Form.Group className="mb-4">
+                                    <Form.Label className="fw-semibold">🔒 Password</Form.Label>
+                                    <Form.Control
+                                        type="password"
+                                        name="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        placeholder="Enter your password"
+                                        required
+                                        style={{ borderRadius: '10px', padding: '12px' }}
+                                    />
+                                </Form.Group>
+                                <Button 
+                                    variant="primary" 
+                                    type="submit" 
+                                    className="w-100 fw-semibold"
+                                    disabled={loading}
+                                    style={{ 
+                                        borderRadius: '10px',
+                                        padding: '12px',
+                                        fontSize: '1.1rem'
+                                    }}
+                                >
+                                    {loading ? (
+                                        <>
+                                            <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                                            Signing in...
+                                        </>
+                                    ) : (
+                                        '🚀 Sign In'
+                                    )}
+                                </Button>
+                            </Form>
+                            <div className="text-center mt-4">
+                                <span className="text-muted">Don't have an account? </span>
+                                <Link to="/signup" style={{ color: 'var(--primary-dark)', fontWeight: '600' }}>
+                                    Create one here
+                                </Link>
+                            </div>
+                        </Card.Body>
+                    </Card>
+                </Container>
+            </div>
         </>
     );
 };

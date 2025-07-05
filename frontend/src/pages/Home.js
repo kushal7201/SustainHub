@@ -20,42 +20,57 @@ const Home = () => {
 
     return (
         <>
-            <Navigation />
-            <section id="section">
+            <Navigation />            <section id="section">
                 <Container>
                     <div className="text-box">
-                        <p className="tagline">Spot it. Report it. Sustain it.</p>
-                        <p>Join the Sustain Hub movement today!</p>
-                        <Link to="/signup">Get Started</Link>
+                        <p className="tagline">🌍 Spot it. Report it. Sustain it.</p>
+                        <p>Join the SustainHub movement and help build better communities through citizen engagement</p>
+                        <Link to="/signup">🚀 Get Started</Link>
                     </div>
                 </Container>
             </section>
 
-            <div className="about-us" id="about-us">
-                <h2><b>About Us</b></h2>
-                <p>
-                    Sustain Hub is a web platform designed to empower citizens to report and
-                    track public facility issues within their local community and get reward
-                    points. By providing an intuitive interface, Sustain Hub makes it easy
-                    for users to pinpoint problems and submit detailed reports, including
-                    photos, which can be accessed and addressed by local authorities.
-                </p>
-            </div>
-
-            <footer className="footer mt-auto py-3 bg-light" id="contact">
-                <Container className="text-center">
-                    <p>
-                        <span className="fw-bold">SustainHub</span>
-                        <span className="text-muted"> Copyright © 2025 | All rights reserved</span>
-                        <span className="ms-3">
-                            <a href="https://github.com/kushal7201/Sustain_Hub_GSC" className="me-2">
-                                <img src="/github.png" alt="GitHub" style={{ width: '24px', height: '24px' }} />
-                            </a>
-                            <a href="mailto:321kushalbansal.kb@gmail.com">
-                                <img src="/gmail.png" alt="Email" style={{ width: '24px', height: '24px' }} />
-                            </a>
-                        </span>
+            <Container className="my-5">
+                <div className="about-us" id="about-us">
+                    <h2><b>🌱 About SustainHub</b></h2>
+                    <p className="lead">
+                        SustainHub empowers citizens to report and track public facility issues in their community 
+                        while earning reward points. Our intuitive platform makes it easy to submit detailed reports 
+                        with photos and GPS locations, helping local authorities address problems efficiently.
                     </p>
+                    
+                    <div className="row mt-5">
+                        <div className="col-md-4 mb-4">
+                            <div className="feature-card">
+                                <h4>📍 Report Issues</h4>
+                                <p>Easily report public issues with photos and precise GPS location tagging</p>
+                            </div>
+                        </div>
+                        <div className="col-md-4 mb-4">
+                            <div className="feature-card">
+                                <h4>🏆 Earn Rewards</h4>
+                                <p>Get reward points for every verified issue you report to the community</p>
+                            </div>
+                        </div>
+                        <div className="col-md-4 mb-4">
+                            <div className="feature-card">
+                                <h4>👥 Build Community</h4>
+                                <p>Work together to create sustainable and livable communities for everyone</p>
+                            </div>
+                        </div>                    </div>
+                </div>
+            </Container>            <footer className="footer" id="contact">
+                <Container className="text-center">
+                    <div className="d-flex justify-content-center align-items-center">
+                        <span className="me-3"><strong>🌱 SustainHub</strong></span>
+                        <span className="me-3 text-muted small">Copyright © 2025 SustainHub. All rights reserved.</span>
+                        <a href="https://github.com/kushal7201/Sustain_Hub_GSC" className="me-2" target="_blank" rel="noopener noreferrer">
+                            <img src="/github.png" alt="GitHub" style={{ width: '20px', height: '20px', opacity: 0.8 }} />
+                        </a>
+                        <a href="mailto:321kushalbansal.kb@gmail.com">
+                            <img src="/gmail.png" alt="Email" style={{ width: '20px', height: '20px', opacity: 0.8 }} />
+                        </a>
+                    </div>
                 </Container>
             </footer>
         </>
