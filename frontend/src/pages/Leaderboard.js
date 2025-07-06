@@ -38,11 +38,9 @@ const Leaderboard = () => {
         setCurrentPage(page);
     };
 
-    const getRankBadge = (rank) => {
-        if (rank === 1) return { variant: 'warning', icon: '🥇', text: '1st' };
-        if (rank === 2) return { variant: 'secondary', icon: '🥈', text: '2nd' };
-        if (rank === 3) return { variant: 'dark', icon: '🥉', text: '3rd' };
-        return { variant: 'primary', icon: '🏅', text: `${rank}th` };
+    const getRankDisplay = (rank) => {
+        if (rank === 1) return { icon: '🏆', text: `${rank}` };
+        return { icon: '', text: `${rank}` };
     };
 
     const getCurrentUserRank = () => {
@@ -71,9 +69,9 @@ const Leaderboard = () => {
                     {getCurrentUserRank() && (
                         <Alert variant="info" className="text-center">
                             <strong>Your Current Rank: </strong>
-                            <Badge bg={getRankBadge(getCurrentUserRank()).variant} className="ms-1">
-                                {getRankBadge(getCurrentUserRank()).icon} {getRankBadge(getCurrentUserRank()).text}
-                            </Badge>
+                            <span className="ms-1 fw-bold fs-5">
+                                {getRankDisplay(getCurrentUserRank()).icon} {getRankDisplay(getCurrentUserRank()).text}
+                            </span>
                             <span className="ms-2">with {user?.rewards || 0} points</span>
                         </Alert>
                     )}
@@ -115,7 +113,7 @@ const Leaderboard = () => {
                                             </thead>
                                             <tbody>
                                                 {leaderboardData.map((userEntry, index) => {
-                                                    const rankBadge = getRankBadge(userEntry.rank);
+                                                    const rankDisplay = getRankDisplay(userEntry.rank);
                                                     const isCurrentUser = userEntry._id === user?._id;
                                                     
                                                     return (
@@ -128,9 +126,9 @@ const Leaderboard = () => {
                                                             }}
                                                         >
                                                             <td className="text-center py-3">
-                                                                <Badge bg={rankBadge.variant} className="px-3 py-2">
-                                                                    {rankBadge.icon} {rankBadge.text}
-                                                                </Badge>
+                                                                <span className="fw-bold fs-5" style={{ color: 'var(--primary-dark)' }}>
+                                                                    {rankDisplay.icon} {rankDisplay.text}
+                                                                </span>
                                                             </td>                                                            <td className="py-3">
                                                                 <div className="d-flex align-items-center">
                                                                     {userEntry.profilePhoto ? (
@@ -164,13 +162,9 @@ const Leaderboard = () => {
                                                                 </div>
                                                             </td>
                                                             <td className="text-center py-3">
-                                                                <Badge 
-                                                                    bg="success" 
-                                                                    className="px-3 py-2 fs-6"
-                                                                    style={{ backgroundColor: 'var(--primary-medium)' }}
-                                                                >
-                                                                    {userEntry.rewards} pts
-                                                                </Badge>
+                                                                <span className="fw-bold fs-5" style={{ color: 'var(--primary-dark)' }}>
+                                                                    {userEntry.rewards}
+                                                                </span>
                                                             </td>
                                                         </tr>
                                                     );
