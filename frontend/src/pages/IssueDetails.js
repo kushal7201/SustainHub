@@ -158,6 +158,27 @@ const IssueDetails = () => {
                                                     <strong>Latitude:</strong> {issue.latitude}<br />
                                                     <strong>Longitude:</strong> {issue.longitude}
                                                 </p>
+                                                <a
+                                                    href={`https://www.google.com/maps/search/?api=1&query=${issue.latitude},${issue.longitude}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    style={{
+                                                    color: 'inherit',
+                                                    textDecoration: 'underline',
+                                                    display: 'inline-flex',
+                                                    alignItems: 'center',
+                                                    marginTop: '0.5rem'
+                                                    }}
+                                                >
+                                                    <img
+                                                        src={`/navigate.svg`}
+                                                        alt="Navigate icon"
+                                                        width="16"
+                                                        height="16"
+                                                        style={{ marginRight: '0.25rem' }}
+                                                        />
+                                                    Get Direction
+                                                </a>
                                             </div>
 
                                             <div className="mb-4">
