@@ -1,7 +1,7 @@
-# Sustain Hub
+# [Sustain Hub 🔗](https://sustainhub.pages.dev)
 
 ## Overview
-Sustain Hub is a comprehensive web platform designed to empower citizens to report and track public facility issues within their local community while earning reward points. The platform provides an intuitive interface that makes it easy for users to pinpoint problems and submit detailed reports with photos and precise location data. Local authorities can efficiently track, manage, and resolve reported issues through a dedicated admin dashboard.
+Sustain Hub [(Visit)](https://sustainhub.pages.dev) is a comprehensive web platform designed to empower citizens to report and track public facility issues within their local community while earning reward points. The platform provides an intuitive interface that makes it easy for users to pinpoint problems and submit detailed reports with photos and precise location data. Local authorities can efficiently track, manage, and resolve reported issues through a dedicated admin dashboard.
 
 ## Key Features
 
