@@ -133,12 +133,10 @@ code {
   text-align: center;
   max-width: 1000px;
   margin: 0 auto;
-  background: var(--white);
   border-radius: 20px;
   margin-top: -50px;
   position: relative;
   z-index: 3;
-  box-shadow: 0 10px 30px var(--shadow);
 }
 
 .about-us h2 {
@@ -424,5 +422,21 @@ code {
   .dropdown-menu-custom .btn {
     margin: 10px 20px 0 20px !important;
     width: calc(100% - 40px) !important;
+  }
+}
+
+/* Responsive Font Sizes - Mobile Only */
+@media (max-width: 576px) {
+  .h5-sm {
+    font-size: 2rem !important; /* h5 size on mobile */
+  }
+  
+  .h3-sm {
+    font-size: 1.5rem !important; /* h3 size on mobile */
+  }
+
+  .text-box{
+    margin-left: 15px;
+    margin-right: 15px;
   }
 }
