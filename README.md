@@ -3,6 +3,19 @@
 ## Overview
 Sustain Hub [(Visit)](https://sustainhub.pages.dev) is a comprehensive web platform designed to empower citizens to report and track public facility issues within their local community while earning reward points. The platform provides an intuitive interface that makes it easy for users to pinpoint problems and submit detailed reports with photos and precise location data. Local authorities can efficiently track, manage, and resolve reported issues through a dedicated admin dashboard.
 
+## Quick Design Overview
+
+| Section            | Screenshot                                    |
+|--------------------|-----------------------------------------------|
+| **Admin Dashboard**| ![Admin Dashboard](assets/admin_dashboard.png) |
+| **Issue Details**  | ![Issue Details](assets/issue_details.png)     |
+| **User Dashboard** | ![User Dashboard](assets/user_dashboard.png)   |
+| **Issue History**  | ![Issue History](assets/issue_history.png)     |
+
+> _Explore the platform's main features visually. Each section below demonstrates a key part of the user or admin experience._
+
+
+
 ## Key Features
 
 ### For Citizens
@@ -10,6 +23,7 @@ Sustain Hub [(Visit)](https://sustainhub.pages.dev) is a comprehensive web platf
 - **Issue Reporting** - Report problems with category selection, detailed descriptions, and photo uploads
 - **Automatic Location Detection** - GPS-based location tagging for precise issue positioning
 - **Reward System** - Earn points for reporting issues (10 points per verified report)
+- **Leaderboard** - Compete with other users and see your ranking based on reward points earned for reporting and resolving issues. Top contributors are highlighted to encourage community participation.
 - **Profile Management** - Update personal information and track reward points
 - **Real-time Status Updates** - Track the progress of reported issues
 
