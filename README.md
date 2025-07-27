@@ -45,22 +45,18 @@ Sustain Hub [(Visit)](https://sustainhub.pages.dev) is a comprehensive web platf
 
 ### Frontend
 - **React 18** - Modern JavaScript library for building user interfaces
-- **React Router** - Client-side routing for single-page application
 - **Bootstrap 5** - Responsive CSS framework
 - **React Bootstrap** - Bootstrap components for React
 - **Axios** - HTTP client for API requests
-- **React Toastify** - Toast notifications for user feedback
 
 ### Backend
 - **Node.js** - JavaScript runtime environment
 - **Express.js** - Web application framework
 - **MongoDB** - NoSQL database for data storage
-- **Mongoose** - MongoDB object modeling for Node.js
 - **JWT (JSON Web Tokens)** - Secure authentication
 - **bcryptjs** - Password hashing
 - **Multer** - File upload handling
 - **Cloudinary** - Cloud-based image storage
-- **CORS** - Cross-origin resource sharing
 
 ### Maps & Location
 - **Geoapify API** - Interactive maps and geocoding services
@@ -153,8 +149,8 @@ REACT_APP_GEOAPIFY_API_KEY=your_geoapify_api_key
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/kushal7201/Sustain_Hub_GSC
-   cd Sustain_Hub_GSC
+   git clone https://github.com/kushal7201/SustainHub
+   cd SustainHub
    ```
 
 2. **Install Backend Dependencies**
@@ -224,15 +220,6 @@ REACT_APP_GEOAPIFY_API_KEY=your_geoapify_api_key
 - **Environment Variables** - Sensitive data stored securely
 - **Role-based Access** - Different permissions for users and admins
 
-## Future Enhancements
-
-- **Push Notifications** - Real-time updates for issue status changes
-- **Advanced Analytics** - Dashboard with issue statistics and trends
-- **Mobile App** - Native mobile applications for iOS and Android
-- **Email Notifications** - Automated updates via email
-- **Issue Categories** - Expanded categories with custom icons
-- **Community Voting** - Allow citizens to upvote important issues
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -242,14 +229,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 For support, issues, or feature requests, please:
 1. Open an issue on GitHub
 2. Contact the development team
-3. Check the documentation for common solutions
-
-## Acknowledgments
-
-- **Geoapify** for providing excellent mapping services
-- **Cloudinary** for reliable image storage solutions
-- **MongoDB Atlas** for cloud database hosting
-- **Open Source Community** for the amazing libraries and tools used in this project
 
 ---
 
